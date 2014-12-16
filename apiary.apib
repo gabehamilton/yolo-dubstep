@@ -1,0 +1,99 @@
+FORMAT: 1A
+
+# Cardfree Engagement API
+The Cardfree customer engagement API allows interaction with Offers and Rewards.
+
+## Offers
+Offer related resources of the **Cardfree API**
+
+## Offers Collection [/account-management/v1/users/{masterAccountId}/offers?includeOffers&includeRewards&includeAutomatedRewards]
+### List all offers available to an account [GET]
++ Parameters
+    + masterAccountId (required, string, `xkcd-1234-fieh-yieo`) ... String `masterAccountid` of the User to retrieve offers for. Has example value.
+    + includeOffers (optional, boolean, `true`) ... Defaults to true, whether to include offers (promotions available to more than one person) in the results.
+    + includeRewards (optional, boolean, `false`) ... Defaults to false, whether to include rewards (promotions earned by an individual) in the results.
+    + includeAutomatedRewards (optional, boolean, `false`) ... Defaults to false.
+
++ Response 200 (application/json)
+
+    + Properties
+        + type (string) either 'offer' or 'reward'
+        + redemptionCode (string) 321332
+        + startDate (DateTime) 2014-02-18
+        + endDate (DateTime) 2014-03-18
+        + daypartStart (DateTime) 2014-02-18T10:00:00
+        + daypartEnd (DateTime) 2014-03-18T23:59:59
+        + content
+            + name (string) Get a free coffee every Tuesday!
+            + subtitle (string) you know you want it.
+            + description (string) Get a free coffee every Tuesday! Free small coffee with any purchase at any of our locations, every Tuesday.
+            + finePrint (string) Must be 13 or older and a resident of Earth.
+            + thumbnailImageURL (string) 
+            + imageURL (string) http://www.cardfree.com/image.jpg
+        + viewed (boolean) true
+        + usesRemaining (number) 5
+        + usesRemainingToday (number) 1
+        + eligible (boolean) false
+        + isAutomated (boolean) false        
+
+    + Body
+
+            [{ "type": "offer", "redemptionCode":  "321332", "startDate": "2014-12-01", "endDate": "2015-12-01",
+                "daypartStart": "1970-01-01T10:00:00", "daypartEnd": "1970-01-01T23:59:59",
+                "content": {
+                    "name": "Get tacos for $1 every Tuesday!", "subtitle": "They are delicious",
+                    "description",  "Get tacos for $1 every Tuesday! Soft or hard all the same price",
+                    "thumbnailImageURL": "http://www.cardfree.com/thumbnailImage.jpg"
+                    "imageURL": "http://www.cardfree.com/image.jpg", 
+                },
+                "viewed": true, "usesRemaining": 5, "usesRemainingToday": 1, 
+                "eligible": false, "isAutomated": false
+            }]
+
+### Apply an Offer [POST]
+Documentation in progress
++ Parameters
+    + masterAccountId (required, string, `xkcd-1234-fieh-yieo`) ... String `masterAccountid` of the User to retrieve offers for. Has example value.
+
++ Request (application/json)
+
+    + Properties
+        + redemptionCode (string) 923892
+        + orderItems
+            + menuItemId (string) 203282
+            + price (number) 2.99
+            + discountedPrice (number) 0.00
+        
+    + Body
+    
+            {'redemptionCode': "923892",
+                "orderItems": {
+                    "menuItemId": "203282"
+                    "price": 2.99
+                    "discountedPrice":0.00
+                }
+            }
++ Response 201 (application/json)
+
+        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+
+## Submitting an order with an offer [/offer/{id}]
+An order object that includes an collection of offers
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
+
+### Retrieve a Note [GET]
+Example documentation - to be removed
++ Response 200 (application/json)
+
+    + Header
+
+            X-My-Header: The Value
+
+    + Body
+
+            { "id": 2, "title": "Pick-up posters from post-office" }
+
+### Remove a Note [DELETE]
++ Response 204

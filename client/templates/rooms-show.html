@@ -1,0 +1,75 @@
+<template name="roomsShow">
+  <div class="page rooms-show">
+    <nav class="js-title-nav">
+      {{#if editing}}
+        <form class="js-edit-form room-edit-form">
+          <input type="text" name="name" value="{{name}}">
+          <div class="nav-group right">
+            <a href="#" class="js-cancel nav-item"><span class="icon-close js-cancel" title="Cancel"></span></a>
+          </div>
+        </form>
+      {{else}}
+        <div class="nav-group">
+          <a href="#" class="js-menu nav-item"><span class="icon-list-unordered" title="Show menu"></span></a>
+        </div>
+
+        <h1 class="js-edit-room title-page"><span class="title-wrapper">{{name}}</span> <span class="count-room">{{incompleteCount}}</span></h1>
+
+        <div class="nav-group right">
+          <div class="nav-item options-mobile">
+            <select class="room-edit">
+              <option disabled selected>Select an action</option>
+              {{#if userId}}
+                <option value="public">Make Public</option>
+              {{else}}
+                <option value="private">Make Private</option>
+              {{/if}}
+              <option value="delete">Delete</option>
+            </select>
+            <span class="icon-cog"></span>
+          </div>
+          <div class="options-web">
+            <a class="js-toggle-room-privacy nav-item">
+              {{#if userId}}
+                <span class="icon-lock" title="Make room public"></span>
+              {{else}}
+                <span class="icon-unlock" title="Make room private"></span>
+              {{/if}}
+            </a>
+
+            <a class="js-delete-room nav-item">
+              <span class="icon-trash" title="Delete room"></span>
+            </a>
+          </div>
+        </div>
+      {{/if}}
+
+      <form class="js-chirp-new chirp-new input-symbol">
+        <input type="text" placeholder="Type to add new messages">
+        <span class="icon-add js-chirp-add"></span>
+      </form>
+    </nav>
+
+
+    <div class="content-scrollable list-items">
+      {{#if chirpsReady}}
+        {{#with _id}} {{! Establish new data context with only the '_id'
+                          field. This way, when the 'incompleteCount' field
+                          changes, we don't re-render the list contents }}
+          {{#each chirps this}}
+            {{> chirpsItem}}
+          {{else}}
+            <div class="wrapper-message">
+              <div class="title-message">No messages here</div>
+              <div class="subtitle-message">Add new messages using the field above</div>
+            </div>
+          {{/each}}
+        {{/with}}
+      {{else}}
+          <div class="wrapper-message">
+            <div class="title-message">Loading messages...</div>
+          </div>
+      {{/if}}
+    </div>
+  </div>
+</template>

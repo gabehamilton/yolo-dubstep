@@ -46,5 +46,15 @@ Template.chirpsItem.events({
     Chirps.remove(this._id);
     if (! this.checked)
       Rooms.update(this.roomId, {$inc: {incompleteCount: -1}});
-  }
+  },
+
+	'click .js-play-item': function() {
+		Chirps.update(this._id, {$inc: {playedCount: 1}});
+		var sound = new Howl({
+			urls: [this.url] //,
+			//volume: 0.5,
+			//buffer: true
+		}).play();
+	}
+
 });

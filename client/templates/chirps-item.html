@@ -1,11 +1,14 @@
 <template name="chirpsItem">
   <div class="list-item {{checkedClass}} {{editingClass}}">
-    <label class="checkbox">
-      <input type="checkbox" checked="{{checked}}" name="checked">
-      <span class="checkbox-custom"></span>
-    </label>
+    <!--<label class="checkbox">-->
+      <!--<input type="checkbox" checked="{{checked}}" name="checked">-->
+      <!--<span class="checkbox-custom"></span>-->
+    <!--</label>-->
+    <span class="fa fa-play js-play-item"></span>
+	  <span class="counter">{{playedCount}}</span>
 
     <input type="text" value="{{text}}" placeholder="Message name">
-    <a class="js-delete-item delete-item" href="#"><span class="icon-trash"></span></a>
+	  <input type="text" value="{{url}}" placeholder="sound file url">
+	  <a class="js-delete-item delete-item" href="#"><span class="icon-trash"></span></a>
   </div>
 </template>

@@ -3,34 +3,34 @@ Meteor.startup(function () {
   if (Rooms.find().count() === 0) {
     var data = [
       {name: "Skuloop Gang",
-       items: ["yo",
-         "dude",
-         "what's up",
-         "in da house",
-         "fo sho",
-         "beep, bip, beep",
-         "highdee ho"
+       items: [{text: "yo", url: 'https://s3.amazonaws.com/canaryfiles/test/sound.ogg'},
+	       {text: "dude", url: ''},
+	       {text: "what's up", url: ''},
+	       {text: "in da house", url: ''},
+	       {text: "fo sho", url: ''},
+	       {text: "beep, bip, beep", url: ''},
+	       {text: "highdee ho", url: ''}
        ]
       },
       {name: "Family",
-       items: ["when are we meeting?",
-         "tomorrow?",
-         "no",
-         "wednesday?",
-         "no",
-         "I thought we decided this already",
-         "ok",
-         "no",
-         "I'll send another email"
+       items: [{text: "when are we meeting?", url: ''},
+	       {text: "tomorrow?", url: ''},
+	       {text: "no", url: ''},
+	       {text: "wednesday?", url: ''},
+	       {text: "no", url: ''},
+	       {text: "I thought we decided this already", url: ''},
+	       {text: "ok", url: ''},
+	       {text: "no", url: ''},
+	       {text: "I'll send another email",  url: ''}
          ]
       },
       {name: "Work",
-       items: ["did you commit?",
-         "yes, we're ready to go",
-         "all tested",
-         "just the new stuff",
-         "is that good enough?",
-         "ship it"
+       items: [{text: "did you commit?", url: ''},
+	       {text: "yes, we're ready to go", url: ''},
+	       {text: "all tested", url: ''},
+	       {text: "just the new stuff", url: ''},
+	       {text: "is that good enough?", url: ''},
+	       {text: "ship it", url: ''}
        ]
       }
     ];
@@ -40,9 +40,10 @@ Meteor.startup(function () {
       var room_id = Rooms.insert({name: room.name,
         incompleteCount: room.items.length});
 
-      _.each(room.items, function(text) {
+      _.each(room.items, function(chirp) {
         Chirps.insert({roomId: room_id,
-                      text: text,
+                      text: chirp.text,
+	                    url: chirp.url,
                       createdAt: new Date(timestamp)});
         timestamp += 1; // ensure unique timestamp.
       });

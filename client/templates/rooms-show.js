@@ -171,5 +171,14 @@ Template.roomsShow.events({
     });
     Rooms.update(this._id, {$inc: {incompleteCount: 1}});
     $input.val('');
-  }
+  },
+
+	'click .js-play-all-room': function(event) {
+		var items = Chirps.find({roomId: this._id}, {sort: {createdAt : -1}});
+		items.forEach(function(chirp) {
+			if(chirp.url) {
+				Playback.playSound(chirp.url);
+			}
+		});
+	}
 });

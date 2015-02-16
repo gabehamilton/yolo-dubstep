@@ -50,11 +50,7 @@ Template.chirpsItem.events({
 
 	'click .js-play-item': function() {
 		Chirps.update(this._id, {$inc: {playedCount: 1}});
-		var sound = new Howl({
-			urls: [this.url] //,
-			//volume: 0.5,
-			//buffer: true
-		}).play();
+		Playback.playSound(this.url);
 	}
 
 });

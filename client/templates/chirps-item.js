@@ -37,7 +37,9 @@ Template.chirpsItem.events({
   // we don't flood the server with updates (handles the event at most once 
   // every 300ms)
   'keyup input[type=text]': _.throttle(function(event) {
-    Chirps.update(this._id, {$set: {text: event.target.value}});
+	  var input = {};
+	  input[event.target.name] = event.target.value;
+    Chirps.update(this._id, {$set: input});
   }, 300),
   
   // handle mousedown otherwise the blur handler above will swallow the click

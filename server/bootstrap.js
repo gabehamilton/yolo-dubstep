@@ -4,12 +4,11 @@ Meteor.startup(function () {
     var data = [
       {name: "Skuloop Gang",
        items: [{text: "yo", url: 'https://s3.amazonaws.com/canaryfiles/test/sound.ogg'},
-	       {text: "dude", url: ''},
-	       {text: "what's up", url: ''},
-	       {text: "in da house", url: ''},
-	       {text: "fo sho", url: ''},
-	       {text: "beep, bip, beep", url: ''},
-	       {text: "highdee ho", url: ''}
+	       {text: "dude", url: 'https://s3.amazonaws.com/canaryfiles/test/sweep2.ogg'},
+	       {text: "what's up", url: 'https://s3.amazonaws.com/canaryfiles/test/alien-noise-01.ogg'},
+	       {text: "in da house", url: 'https://s3.amazonaws.com/canaryfiles/test/raygun-01.ogg'},
+	       {text: "fo sho", url: 'https://s3.amazonaws.com/canaryfiles/test/laser-02.ogg'},
+	       {text: "beep, bip, beep", url: 'https://s3.amazonaws.com/canaryfiles/test/laser-01.ogg'}
        ]
       },
       {name: "Family",

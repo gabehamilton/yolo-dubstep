@@ -51,8 +51,11 @@ Template.chirpsItem.events({
   },
 
 	'click .js-play-item': function() {
+		Playback.playSoundBytes(this.audioWav);
+
+		if(!this.playedCount)
+			Rooms.update(this.roomId, {$inc: {incompleteCount: -1}});
 		Chirps.update(this._id, {$inc: {playedCount: 1}});
-		Playback.playSound(this.url);
 	}
 
 });

@@ -1,29 +1,25 @@
-function __log(e, data) {
-	$('#log').innerHTML += "\n" + e + " " + (data || '');
-	console.log("\n" + e + " " + (data || ''));
-}
-
 var audio_context;
 var recorder;
 
 function startUserMedia(stream) {
 	var input = audio_context.createMediaStreamSource(stream);
-	__log('Media stream created.');
+	console.log('Media stream created.');
 
 	// Uncomment if you want the audio to feedback directly
 	//input.connect(audio_context.destination);
-	//__log('Input connected to audio context destination.');
+	//console.log('Input connected to audio context destination.');
 
 	recorder = new Recorder(input);
-	__log('Recorder initialised.');
+	console.log('Recorder initialised.');
 }
+
 Template.record.events({
 	'click .js-record': function(event) {
 		var button = event.target;
 		recorder && recorder.record();
 		button.disabled = true;
 		button.nextElementSibling.disabled = false;
-		__log('Recording...');
+		console.log('Recording...');
 	},
 
 	'click .js-stop-recording': function(event) {
@@ -31,14 +27,52 @@ Template.record.events({
 		recorder && recorder.stop();
 		button.disabled = true;
 		button.previousElementSibling.disabled = false;
-		__log('Stopped recording.');
+		console.log('Stopped recording.');
 
-		// create WAV download link using audio data blob
-		createDownloadLink();
+		storeAudioBytes(this._id);
+		Rooms.update(this._id, {$inc: {incompleteCount: 1}});
 
 		recorder.clear();
 	}
 });
+
+var BinaryFileReader = {
+	read: function(file, callback){
+		var reader = new FileReader;
+
+		var fileInfo = {
+			name: file.name,
+			type: file.type,
+			size: file.size,
+			file: null
+		}
+
+		reader.onload = function(){
+			fileInfo.file = new Uint8Array(reader.result);
+			callback(null, fileInfo);
+		}
+		reader.onerror = function(){
+			callback(reader.error);
+		}
+
+		reader.readAsArrayBuffer(file);
+	}
+}
+
+function storeAudioBytes(roomId) {
+	recorder && recorder.exportWAV(function(blob) {
+		BinaryFileReader.read(blob, function(err, fileInfo){
+			console.log(blob);
+			Chirps.insert({
+				roomId: roomId,
+				text: 'recorded',
+				checked: false,
+				createdAt: new Date(),
+				audioWav: fileInfo
+			});
+		})
+	});
+}
 
 function createDownloadLink() {
 	recorder && recorder.exportWAV(function(blob) {
@@ -66,13 +100,13 @@ window.onload = function init() {
 		window.URL = window.URL || window.webkitURL;
 
 		audio_context = new AudioContext;
-		__log('Audio context set up.');
-		__log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+		console.log('Audio context set up.');
+		console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
 	} catch (e) {
 //		alert('No web audio support in this browser!');
 	}
 
 	navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-		__log('No live audio input: ' + e);
+		console.log('No live audio input: ' + e);
 	});
 };

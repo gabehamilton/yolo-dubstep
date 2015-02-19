@@ -51,7 +51,10 @@ Template.chirpsItem.events({
   },
 
 	'click .js-play-item': function() {
-		Playback.playSoundBytes(this.audioWav);
+		if(this.url)
+			Playback.playSound(this.url);
+		else
+			Playback.playSoundBytes(this.audioWav);
 
 		if(!this.playedCount)
 			Rooms.update(this.roomId, {$inc: {incompleteCount: -1}});

@@ -26,7 +26,7 @@
 
   &[class*="secondary"] {
     .transition( all 300ms ease-in );
-    box-shadow: lighten(#517096, 5%) 0 0 0 1px inset;
+    box-shadow: white 0 0 0 1px inset;
     color: @color-empty;
 
     &:hover{ color: @color-rare; }
@@ -51,17 +51,30 @@
     & + [class*="btn-"] { margin-left: -1px; }
   }
 }
+.js-play-all-room{
+  font-size: 1rem;
+  line-height: 1.5rem;
+  position: relative;
+  top: -10px;
+  color: white;
+  i{
+    postion: relative;
+    top: 1rem;
+  }
 
+}
 
 .js-record, .js-stop-recording{
   position: absolute;
-  top: .25rem;
-  right: -30rem;
+  top: 2.625rem;
+  right: 0rem;
   background-color: #fc8175;
   border: 6px solid white;
   border-radius: 50%;
   height: 4.5rem;
   width: 4.5rem;
   color: white;
+  box-shadow: rgba(0,0,0,.5) 0 1px 3px 0;
   &[disabled] { display: none;}
+  &:active { box-shadow: rgba(0,0,0,.3) 0 1px 3px 0 inset; }
 }

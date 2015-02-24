@@ -50,10 +50,7 @@
         <input type="text" placeholder="Type to add new messages">
         <span class="icon-add js-chirp-add"></span>
       </form>
-    	{{> record}}
     </nav>
-
-
     <div class="content-scrollable list-items">
       {{#if chirpsReady}}
         {{#with _id}} {{! Establish new data context with only the '_id'
@@ -74,5 +71,7 @@
           </div>
       {{/if}}
     </div>
+    <div>{{> record}}</div>
+
   </div>
 </template>

@@ -176,9 +176,15 @@ Template.roomsShow.events({
 	'click .js-play-all-room': function(event) {
 		var items = Chirps.find({roomId: this._id}, {sort: {createdAt : -1}});
 		items.forEach(function(chirp) {
-			if(chirp.url) {
-				Playback.playSound(chirp.url);
-			}
+			if(chirp.url)
+                        	Playback.playSound(chirp.url);
+                	else
+                        	Playback.playSoundBytes(chirp.audioWav);
+
+                	if(!chirp.playedCount)
+                        	Rooms.update(chirp.roomId, {$inc: {incompleteCount: -1}});
+                	Chirps.update(chirp._id, {$inc: {playedCount: 1}});
+		
 		});
 	}
 });
